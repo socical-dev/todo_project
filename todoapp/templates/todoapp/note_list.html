@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>My Notes</title>
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #f4f4f4;
+            margin: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .note-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .note-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #222;
+        }
+
+        .note-user {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .note-content {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .delete-form {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .no-notes {
+            text-align: center;
+            color: #888;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>📝 My Notes</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="제목" required>
+        <textarea name="content" placeholder="내용" required></textarea>
+        <select name="user">
+            <option value="1">관리자</option>
+            <option value="2">고객</option>
+        </select>
+        <button type="submit">메모 추가</button>
+    </form>
+
+    <hr style="max-width: 500px; margin: 30px auto;">
+
+    {% for note in notes %}
+        <div class="note-card">
+            <div class="note-title">{{ note.title }}</div>
+            <div class="note-user">작성자: {{ note.user.name|default:"익명" }}</div>
+            <div class="note-content">{{ note.content }}</div>
+            <div class="delete-form">
+                <form method="post" action="{% url 'note_delete' note.id %}">
+                    {% csrf_token %}
+                    <button type="submit" style="background-color: #e74c3c;">삭제</button>
+                </form>
+            </div>
+        </div>
+    {% empty %}
+        <p class="no-notes">메모가 없습니다.</p>
+    {% endfor %}
+</body>
+</html>
