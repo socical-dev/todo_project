@@ -19,6 +19,9 @@
 - 🌐 Django REST Framework 기반 API 제공
 - 🖥️ HTML 폼 기반 간단한 UI 제공
 
+![image](https://github.com/user-attachments/assets/5ab0b019-ecb7-433a-8500-f437df10e90b)
+
+
 ---
 
 ## 🛠️ 기술 스택
